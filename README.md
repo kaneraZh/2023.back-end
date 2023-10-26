@@ -17,12 +17,12 @@ Seguna evaluación para la clase backend de inacap 2023
         - persona
             - nombre
             - correo
-            - productos []
-            - servicios []
+            - productos [ ]
+            - servicios [ ]
         - item (abstract)
             - nombre
             - precio
-            - quienes []
+            - quienes [ ]
         - item : producto
             - stock
         - item : servicio

@@ -1,17 +1,6 @@
-Evaluación Diagnóstico
-
-Sobre Python:
-- Utiliza variables y operaciones del lenguaje según requerimiento, analizando situaciones problemáticas establecidas.
-- Codifica instrucciones, estructuras de decisión y operadores según requerimiento.
-- Codifica instrucciones utilizando packages externos según requerimiento.
-- Implementa una aplicación sencilla en Django según requerimiento.
-
-Sobre el Framework Django:
-- Codifica funciones que realicen operaciones CRUD sobre una base de datos según requerimiento.
-- Configura conexión a una base de datos según requerimiento. 
-- Utiliza Sesiones de validación de acceso y estado de colecciones según requerimiento, seleccionando métodos y procedimientos establecidos
-
-Sobre API RESTful:
-- Implementa DjangoRest Framework según requerimiento.
-- Codifica instrucciones de autenticación según requerimiento
-- Codifica instrucciones que generen salidas en formato JSON según requerimiento
+• Elegir un tema y crear el proyecto en django.
+• Crear al menos una aplicación.
+• Basados en el patron models, views, templates.
+    > Crear cada una de las capas.
+• Crear una base de datos y la conexion.
+• Mostrar desde el administrador de django los datos de la base de datos.

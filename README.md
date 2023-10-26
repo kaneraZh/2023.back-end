@@ -1,6 +1,9 @@
 # 2023.back-end
 Seguna evaluación para la clase backend de inacap 2023
 
+Este proyecto utiliza los modulos Apache y MySQL por XAMPP
+La base de datos en el proyecto se llama "PORTAL"
+
 # Requisitos
 1. Elegir un tema y crear el proyecto en django.
 2. Crear al menos una aplicación.

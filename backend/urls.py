@@ -1,5 +1,5 @@
 """
-URL configuration for model project.
+URL configuration for backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,8 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from model_app.views import empleados_data
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('empleados/', empleados_data)
 ]

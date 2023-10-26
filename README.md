@@ -13,33 +13,33 @@ Seguna evaluación para la clase backend de inacap 2023
 1. Portal para ofrecer productos y servicios
 2. portal
 3. patrones
-> models
-    persona
-        nombre
-        correo
-        productos []
-        servicios []
-    item (abstract)
-        nombre
-        precio
-        quienes []
-    item : producto
-        stock
-    item : servicio
-> views
-    ingresar
-    perfil
-        informacion
-            -editar
-            -productos  ver/editar
-            -servicios  ver/editar
-    productos
-        -todos
-    servicios
-        -todos
-> templates
-    perfil
-    productos
-    servicios
+    - models
+        - persona
+            - nombre
+            - correo
+            - productos []
+            - servicios []
+        - item (abstract)
+            - nombre
+            - precio
+            - quienes []
+        - item : producto
+            - stock
+        - item : servicio
+    - views
+        - ingresar
+        - perfil
+            - informacion
+                - -editar
+                - -productos  ver/editar
+                - -servicios  ver/editar
+        - productos
+            - -todos
+        - servicios
+            - -todos
+    - templates
+        - perfil
+        - productos
+        - servicios
 4. productos_servicios
 5. mostrar

@@ -3,8 +3,9 @@ from django.db import models
 class Item(models.Model):
     def __str__(self):return self.name
     def get_absolute_url(self):return reverse("item_detail", kwargs={"pk": self.pk})
-    nombre  = models.CharField(max_length=20)
-    precio  = models.IntegerField()
+    nombre      = models.CharField(max_length=20)
+    precio      = models.IntegerField()
+    descripcion = models.CharField(max_length=150, default="")
 
 class Producto(models.Model):
     def __str__(self):return self.name
@@ -17,6 +18,7 @@ class Servicio(models.Model):
     def get_absolute_url(self):return reverse("servicio_detail", kwargs={"pk": self.pk})
     item    = models.ForeignKey(Item,on_delete=models.CASCADE)
     tiempo  = models.TimeField(auto_now=False, auto_now_add=False)
+    
 
 class Persona(models.Model):
     def __str__(self):return self.name

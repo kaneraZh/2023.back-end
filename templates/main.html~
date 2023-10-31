@@ -10,23 +10,25 @@
 <body>
 	<div>
     {% if productos %}
-    <div>
+    <div class="container text-center">
     	{% for p in productos %}
-    	<div>
-    		<h1>{p.nombre}</h1>
-    		<p>{p.descripcion}</p>
-    	</div>
+		<div class="row">
+			<div class="col">
+				{{ p.nombre }}
+			</div>
+		</div>
     	{% endfor %}
     </div>
     {% endif %}
     
     {% if servicios %}
-    <div>
-    	{% for p in servicios %}
-    	<div>
-    		<h1>{nombre}</h1>
-    		<p>{descripcion}</p>
-    	</div>
+    <div class="container text-center">
+    	{% for s in servicios %}
+		<div class="row">
+			<div class="col">
+				{{ s.nombre }}
+			</div>
+		</div>
     	{% endfor %}
     </div>
     {% endif %}

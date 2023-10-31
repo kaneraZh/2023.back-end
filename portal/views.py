@@ -1,3 +1,7 @@
 from django.shortcuts import render
-
-# Create your views here.
+import portal.models as models
+def main(request):
+    data = {}
+    data['productos'] = models.Producto.objects.all()
+    data['servicios'] = models.Servicio.objects.all()
+    return render(request, 'main.html', data)

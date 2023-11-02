@@ -5,43 +5,42 @@
         has "title" string for the title of the row
         has "contents" string array, for the contents of each row
 -->
-
 <table class="table table-hover">
     <thead>
         <tr>
-            {{% for h in headings %}}
+            {% for h in headings %}
             <th scope="col">{{h}}</th>
-            {{% endfor %}}
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
-    {{% for col in columns %}}
-        {% if   col.style==0 %}
+    {% for col in columns %}
+        {% if   col.style == 0 %}
         <tr class="table-primary">
-        {% elif col.style==1 %}
+        {% elif col.style == 1 %}
         <tr class="table-secondary">
-        {% elif col.style==2 %}
+        {% elif col.style == 2 %}
         <tr class="table-active">
-        {% elif col.style==3 %}
+        {% elif col.style == 3 %}
         <tr class="table-success">
-        {% elif col.style==4 %}
+        {% elif col.style == 4 %}
         <tr class="table-danger">
-        {% elif col.style==5 %}
+        {% elif col.style == 5 %}
         <tr class="table-warning">
-        {% elif col.style==6 %}
+        {% elif col.style == 6 %}
         <tr class="table-info">
-        {% elif col.style==7 %}
+        {% elif col.style == 7 %}
         <tr class="table-light">
-        {% elif col.style==8 %}
+        {% elif col.style == 8 %}
         <tr class="table-dark">
         {% else %}
         <tr>
-        {{% endif %}}
+        {% endif %}
             <th scope="row">{{col.title}}</th>
-            {{% for c in col.contents %}}
+            {% for c in col.contents %}
             <td>{{c}}</td>
-            {{% endfor %}}
+            {% endfor %}
         </tr>
-    {{% endfor %}}
+    {% endfor %}
     </tbody>
 </table>

@@ -19,5 +19,15 @@ from django.urls import path
 import portal.views as views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main),
+    path('', views.main, name='index'),
+
+    path('/producto', views.producto, name='producto'),
+    path('/producto/<int:pagina>/', views.producto, name='producto_explorador'),
+    path('/producto/detalle/<str:nombre>/', views.producto_detalle, name='producto_detalle'),
+    
+    path('/servicio', views.servicio, name='servicio'),
+    path('/servicio/<int:pagina>/', views.servicio, name='servicio_explorador'),
+    path('/servicio/detalle/<str:nombre>/', views.servicio_detalle, name='servicio_detalle'),
+    
+    path('/persona/<str:persona>/', views.persona)
 ]

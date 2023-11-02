@@ -1,19 +1,19 @@
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href={% url 'index' %}>Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ window==0|yesno:"active," }}" href="#">Home</a>
+                    <a class="nav-link" href={% url 'index' %}>Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ window==1|yesno:"active," }}" href="#">Productos</a>
+                    <a class="nav-link" href={% url 'producto_explorador' pagina=0 %}>Productos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ window==2|yesno:"active," }}" href="#">Servicios</a>
+                    <a class="nav-link" href={% url 'servicio_explorador' pagina=0 %}>Servicios</a>
                 </li>
             </ul>
         </div>  

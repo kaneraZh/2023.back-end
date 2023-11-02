@@ -3,5 +3,8 @@
     <div class="card-body">
         <h4 class="card-title">{{ nombre }}</h4>
         <p class="card-text">{{ descripcion }}</p>
+        <a href={% url 'servicio_detalle' nombre=nombre %}>
+            <button type="button" class="btn btn-primary btn-sm">Detalles</button>
+        </a>
     </div>
 </div>

@@ -31,33 +31,3 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container text-center">
-		{% if productos %}
-			<div class="row gap-2">
-				{% for p in productos %}
-					<div class="card border-primary mb-3" style="max-width: 20rem;">
-						<div class="card-header">{{ p.precio }}</div>
-						<div class="card-body">
-						<h4 class="card-title">{{ p.nombre }}</h4>
-						<p class="card-text">{{ p.descripcion }}</p>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		{% endif %}
-		{% if servicios %}
-			<div class="row gap-2">
-				{% for s in servicios %}
-					<div class="card border-warning mb-3" style="max-width: 20rem;">
-						<div class="card-header">{{ s.precio }}</div>
-						<div class="card-body">
-							<h4 class="card-title">{{ s.nombre }}</h4>
-							<p class="card-text">{{ s.descripcion }}</p>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		{% endif %}
-	</div>
-</body>
-</html>

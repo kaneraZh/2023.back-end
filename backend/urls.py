@@ -29,5 +29,5 @@ urlpatterns = [
     path('servicio/<int:pagina>/', views.servicio, name='servicio_explorador'),
     path('servicio/detalle/<str:nombre>/', views.servicio_detalle, name='servicio_detalle'),
     
-    path('persona/<str:persona>/', views.persona)
+    path('persona/<str:nombre>/', views.persona, name='persona')
 ]

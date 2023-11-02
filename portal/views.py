@@ -9,29 +9,31 @@ def carta(titulo:str,descripcion:str,precio:int,extra:str)->str:
 def navbar(ventana:int = 0)->str:
     data = {'ventana' : max(min(ventana,2),0)}
     return render_to_string('items/navbar.html', data)
-def tables(headings:list, columns:list, style:list):
+def tables(headings:list, columns:list, page:str, style:list):
     data = {}
     data['headings'] = headings
-    class column:
+    class row:
         style:int
         title:str
+        page:str
         contents:list
-        def __init__(self, style:int, contents:list):
+        def __init__(self, style:int, contents:list, page:str):
             self.style = style
             self.title = contents.pop(0)
             self.contents = contents
-    cols = []
+            self.page = page
+    rows = []
     for i in range(len(columns)):
         stl:int = i
         while(stl >= len(style)):stl-= len(style)
-        cols.append(column(style[stl], columns[i]))
-        #cols.append(column(0, columns[i]))
-    data['columns'] = cols
+        rows.append(row(style[stl], columns[i], page))
+        #rows.append(column(0, columns[i]))
+    data['rows'] = rows
     print(data)
     return render_to_string('items/tables.html', data)
 def tabs(titles:list, contents:list):
     data = {}
-    #data = {'selected':titles[0]}
+    data = {'selected':titles[0]}
     class item:
         title:str
         content:str
@@ -102,24 +104,14 @@ def producto_detalle(request, nombre:str):
     columns = []
     for u in usuarios:
         columns.append([u.nombre, u.correo])
-    #data['tabs'] = tabs(
-    #    ['Personas'],
-    #    tables(
-    #        ['Nombre','Correo'],
-    #        columns,
-    #        [0,1]
-    #    )
-    #)
     data['tabs'] = tabs(
-        ['Personas'],
-        tables(
+        ['Personas que ofrecen este producto'],
+        [tables(
             ['Nombre','Correo'],
-            [
-                ['111111', '222222'],
-                ['333333', '444444']
-            ],
+            columns,
+            'persona',
             [0,1]
-        )
+        )]
     )
     return render(request, 'detalle.html', data)
 def servicio_detalle(request, nombre:str):
@@ -134,50 +126,43 @@ def servicio_detalle(request, nombre:str):
     for u in usuarios:
         columns.append([u.nombre, u.correo])
     data['tabs'] = tabs(
-        ['Personas'],
-        tables(
+        ['Personas que ofrecen este servicio'],
+        [tables(
             ['Nombre','Correo'],
             columns,
+            'persona',
             [0,1]
-        )
+        )]
     )
     return render(request, 'detalle.html', data)
 def persona(request, nombre:str):
     data = {}
     data['navbar'] = navbar(0)
     obj = models.Persona.objects.get(nombre=nombre)
-    data['principal'] = carta(obj.nombre, obj.correo, '', )
+    data['principal'] = carta(obj.nombre, obj.correo, '', '')
     
     usuario = models.Persona.objects.get(nombre=nombre)
     productos = []
     servicios = []
     for p in usuario.productos.all():
-        productos.append([
-            p.nombre,
-            p.precio,
-            p.descripcion,
-            p.stock,
-        ])
+        productos.append([p.nombre, p.precio, p.descripcion, p.stock])
     for s in usuario.servicios.all():
-        servicios.append([
-            s.nombre,
-            s.precio,
-            s.descripcion,
-            s.tiempo,
-        ])
+        servicios.append([s.nombre, s.precio, s.descripcion, s.tiempo])
     data['tabs'] = tabs(
-        ['Personas'],
+        ['Productos_ofrecidos', 'Servicios_ofrecidos'],
         [
-        tables(
-            ['Nombre','Precio','Descripcion','Stock'],
-            productos,
-            [0,1]
-        ),
-        tables(
-            ['Nombre','Precio','Descripcion','Tiempo'],
-            servicios,
-            [1,2]
-        )
+            tables(
+                ['Nombre','Precio','Descripcion','Stock'],
+                productos,
+                'producto_detalle',
+                [0,1]
+            ),
+            tables(
+                ['Nombre','Precio','Descripcion','Duración'],
+                servicios,
+                'servicio_detalle',
+                [0,1]
+            )
         ]
     )
-    return render(request, 'persona.html', data)
+    return render(request, 'detalle.html', data)

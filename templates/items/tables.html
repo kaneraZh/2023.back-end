@@ -10,37 +10,41 @@
     <thead>
         <tr>
             {% for h in headings %}
-            <th scope="col">{{h}}</th>
+            <th scope="col" >{{h}}</th>
             {% endfor %}
+            <th scope="col">Detalles</th>
         </tr>
     </thead>
     <tbody>
-    {% for col in columns %}
-        {% if   col.style == 0 %}
+    {% for r in rows %}
+        {% if   r.style == 0 %}
         <tr class="table-primary">
-        {% elif col.style == 1 %}
+        {% elif r.style == 1 %}
         <tr class="table-secondary">
-        {% elif col.style == 2 %}
+        {% elif r.style == 2 %}
         <tr class="table-active">
-        {% elif col.style == 3 %}
+        {% elif r.style == 3 %}
         <tr class="table-success">
-        {% elif col.style == 4 %}
+        {% elif r.style == 4 %}
         <tr class="table-danger">
-        {% elif col.style == 5 %}
+        {% elif r.style == 5 %}
         <tr class="table-warning">
-        {% elif col.style == 6 %}
+        {% elif r.style == 6 %}
         <tr class="table-info">
-        {% elif col.style == 7 %}
+        {% elif r.style == 7 %}
         <tr class="table-light">
-        {% elif col.style == 8 %}
+        {% elif r.style == 8 %}
         <tr class="table-dark">
         {% else %}
         <tr>
         {% endif %}
-            <th scope="row">{{col.title}}</th>
-            {% for c in col.contents %}
+            <th scope="row">{{r.title}}</th>
+            {% for c in r.contents %}
             <td>{{c}}</td>
             {% endfor %}
+            <td><a href={% url r.page nombre=r.title %}>
+                    <button type="button" class="btn btn-primary btn-sm">Detalles</button>
+            </a></td>
         </tr>
     {% endfor %}
     </tbody>

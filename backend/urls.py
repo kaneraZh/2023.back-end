@@ -16,18 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import portal.views as views
+import portal.views as portal
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main, name='index'),
+    path('', portal.main, name='index'),
 
-    path('producto', views.producto, name='producto'),
-    path('producto/<int:pagina>/', views.producto, name='producto_explorador'),
-    path('producto/detalle/<str:nombre>/', views.producto_detalle, name='producto_detalle'),
+    path('producto', portal.producto, name='producto'),
+    path('producto/<int:pagina>/', portal.producto, name='producto_explorador'),
+    path('producto/detalle/<str:nombre>/', portal.producto_detalle, name='producto_detalle'),
     
-    path('servicio', views.servicio, name='servicio'),
-    path('servicio/<int:pagina>/', views.servicio, name='servicio_explorador'),
-    path('servicio/detalle/<str:nombre>/', views.servicio_detalle, name='servicio_detalle'),
+    path('servicio', portal.servicio, name='servicio'),
+    path('servicio/<int:pagina>/', portal.servicio, name='servicio_explorador'),
+    path('servicio/detalle/<str:nombre>/', portal.servicio_detalle, name='servicio_detalle'),
     
-    path('persona/<str:nombre>/', views.persona, name='persona')
+    path('persona/<str:nombre>/', portal.persona, name='persona')
 ]

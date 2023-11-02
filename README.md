@@ -25,24 +25,32 @@ La base de datos en el proyecto se llama "PORTAL"
         - item (abstract)
             - nombre
             - precio
-            - quienes [ ]
+            - descripcion
         - item : producto
             - stock
         - item : servicio
+            - tiempo (de duracion del servicio)
     - views
-        - ingresar
         - perfil
-            - informacion
-                - -editar
-                - -productos  ver/editar
-                - -servicios  ver/editar
+            - detalles
+            - productos ofrecidos
+            - servicios ofrecidos
         - productos
-            - -todos
+            - todos
+            - detalles
+                - personas que ofrecen
         - servicios
-            - -todos
+            - todos
+            - detalles
+                - personas que ofrecen
     - templates
-        - perfil
-        - productos
-        - servicios
+        - main (para vista de 8 items a la vez)
+        - detalle (para una carta principal y detalles de entidades relacionadas)
+        - items (para modulos mas pequeños de html)
+            - carta
+            - navbar
+            - tables
+            - tabs
+            - tarjeta
 4. productos_servicios
 5. mostrar

@@ -57,6 +57,13 @@ def tarjeta_servicio(cabecera:str, titulo:str, descripcion:str)->str:
     data['nombre']      = titulo
     data['descripcion'] = descripcion
     return render_to_string('items/tarjeta_servicio.html', data)
+def tarjeta(cabecera:str, titulo:str, descripcion:str, pagina:str)->str:
+    data = {}
+    data['cabecera']    = cabecera
+    data['nombre']      = titulo
+    data['descripcion'] = descripcion
+    data['pagina']      = pagina
+    return render_to_string('items/tarjeta.html', data)
 
 from django.shortcuts import render
 import portal.models as models
@@ -66,9 +73,9 @@ def main(request):
     data['row1'] = []
     data['row2'] = []
     for p in models.Producto.objects.all()[:4]:
-        data['row1'].append( tarjeta_producto(p.precio,p.nombre,p.descripcion) )
+        data['row1'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
     for s in models.Servicio.objects.all()[:4]:
-        data['row2'].append( tarjeta_servicio(s.precio,s.nombre,s.descripcion) )
+        data['row2'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
     return render(request, 'main.html', data)
 def producto(request, pagina:int=0):
     data = {}
@@ -77,9 +84,9 @@ def producto(request, pagina:int=0):
     data['row2'] = []
     item_min = 8*pagina
     for p in models.Producto.objects.all()[item_min:item_min+4]:
-        data['row1'].append( tarjeta_producto(p.precio,p.nombre,p.descripcion) )
-    for s in models.Producto.objects.all()[item_min+4:item_min+8]:
-        data['row2'].append( tarjeta_producto(s.precio,s.nombre,s.descripcion) )
+        data['row1'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
+    for p in models.Producto.objects.all()[item_min+4:item_min+8]:
+        data['row2'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
     return render(request, 'main.html', data)
 def servicio(request, pagina:int=0):
     data = {}
@@ -87,10 +94,10 @@ def servicio(request, pagina:int=0):
     data['row1'] = []
     data['row2'] = []
     item_min = 8*pagina
-    for p in models.Servicio.objects.all()[item_min:item_min+4]:
-        data['row1'].append( tarjeta_servicio(p.precio, p.nombre, p.descripcion) )
+    for s in models.Servicio.objects.all()[item_min:item_min+4]:
+        data['row1'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
     for s in models.Servicio.objects.all()[item_min+4:item_min+8]:
-        data['row2'].append( tarjeta_servicio(s.precio, s.nombre, s.descripcion) )
+        data['row2'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
     return render(request, 'main.html', data)
 
 def producto_detalle(request, nombre:str):
@@ -152,13 +159,13 @@ def persona(request, nombre:str):
         ['Productos_ofrecidos', 'Servicios_ofrecidos'],
         [
             tables(
-                ['Nombre','Precio','Descripcion','Stock'],
+                ['Nombre','Precio','Descripción','Stock'],
                 productos,
                 'producto_detalle',
                 [0,1]
             ),
             tables(
-                ['Nombre','Precio','Descripcion','Duración'],
+                ['Nombre','Precio','Descripción','Duración'],
                 servicios,
                 'servicio_detalle',
                 [0,1]

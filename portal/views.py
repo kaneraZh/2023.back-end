@@ -23,13 +23,15 @@ def tables(headings:list, columns:list, style:list):
     cols = []
     for i in range(len(columns)):
         stl:int = i
-        while(stl >= len(style)):
-            stl-= len(style)
-        cols.append(column(stl, columns[i]))
+        while(stl >= len(style)):stl-= len(style)
+        cols.append(column(style[stl], columns[i]))
+        #cols.append(column(0, columns[i]))
     data['columns'] = cols
+    print(data)
     return render_to_string('items/tables.html', data)
 def tabs(titles:list, contents:list):
-    data = {'selected':titles[0]}
+    data = {}
+    #data = {'selected':titles[0]}
     class item:
         title:str
         content:str
@@ -100,11 +102,22 @@ def producto_detalle(request, nombre:str):
     columns = []
     for u in usuarios:
         columns.append([u.nombre, u.correo])
+    #data['tabs'] = tabs(
+    #    ['Personas'],
+    #    tables(
+    #        ['Nombre','Correo'],
+    #        columns,
+    #        [0,1]
+    #    )
+    #)
     data['tabs'] = tabs(
         ['Personas'],
         tables(
             ['Nombre','Correo'],
-            columns,
+            [
+                ['111111', '222222'],
+                ['333333', '444444']
+            ],
             [0,1]
         )
     )

@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import forms.views as forms
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', forms.index),
 ]

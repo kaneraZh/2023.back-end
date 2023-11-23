@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from crud import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name="index"),
+    path("proyectos/", views.proyectos_listado, name="proyectos_ver"),
+    path("proyecto/agregar", views.proyecto_agregar, name="proyecto_agregar"),
+    path("proyecto/eliminar/<int:id>", views.proyecto_eliminar, name="proyecto_eliminar"),
+    path("proyecto/actualizar/<int:id>", views.proyecto_actualizar, name="proyecto_actualizar"),
 ]

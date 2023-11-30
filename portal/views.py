@@ -173,3 +173,4 @@ def persona(request, nombre:str):
         ]
     )
     return render(request, 'detalle.html', data)
+

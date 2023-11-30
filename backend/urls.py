@@ -29,5 +29,15 @@ urlpatterns = [
     path('servicio/<int:pagina>/', portal.servicio, name='servicio_explorador'),
     path('servicio/detalle/<str:nombre>/', portal.servicio_detalle, name='servicio_detalle'),
     
-    path('persona/<str:nombre>/', portal.persona, name='persona')
+    path('persona/ver/<int:pk>/', portal.persona, name='persona_ver'),
+    path('persona/agregar/', portal.persona_agregar, name='persona_agregar'),
+    path('persona/modificar/<int:pk>/', portal.persona_modificar, name='persona_modificar'),
+    path('persona/eliminar/<int:pk>/', portal.persona_eliminar, name='persona_eliminar'),
+    path('persona/lista/', portal.persona_lista, name='persona_lista'),
+    
+    #path('persona/ver/<int:pk>/', portal.persona, name='persona_ver'),
+    #path('persona/agregar/', portal.persona_agregar, name='persona_agregar'),
+    #path('persona/modificar/<int:pk>/', portal.persona_modificar, name='persona_modificar'),
+    #path('persona/eliminar/<int:pk>/', portal.persona_eliminar, name='persona_eliminar'),
+    #path('persona/lista/', portal.persona_lista, name='persona_lista'),
 ]

@@ -1,14 +1,15 @@
 from django.template.loader import render_to_string
+from django.shortcuts import redirect
 def carta(titulo:str,descripcion:str,precio:int,extra:str)->str:
     data = {}
     data['titulo']      = titulo
     data['descripcion'] = descripcion
     data['precio']      = precio
     data['extra']       = extra
-    return render_to_string('items/carta.html', data)
+    return render_to_string('_items/carta.html', data)
 def navbar(ventana:int = 0)->str:
     data = {'ventana' : max(min(ventana,2),0)}
-    return render_to_string('items/navbar.html', data)
+    return render_to_string('_items/navbar.html', data)
 def tables(headings:list, columns:list, page:str, style:list):
     data = {}
     data['headings'] = headings
@@ -30,7 +31,7 @@ def tables(headings:list, columns:list, page:str, style:list):
         #rows.append(column(0, columns[i]))
     data['rows'] = rows
     print(data)
-    return render_to_string('items/tables.html', data)
+    return render_to_string('_items/tables.html', data)
 def tabs(titles:list, contents:list):
     data = {}
     data = {'selected':titles[0]}
@@ -44,26 +45,26 @@ def tabs(titles:list, contents:list):
     for i in range(len(titles)):
         items.append( item(titles[i], contents[i]) )
     data['items'] = items
-    return render_to_string('items/tabs.html', data)
+    return render_to_string('_items/tabs.html', data)
 def tarjeta_producto(cabecera:str, titulo:str, descripcion:str)->str:
     data = {}
     data['cabecera']    = cabecera
     data['nombre']      = titulo
     data['descripcion'] = descripcion
-    return render_to_string('items/tarjeta_producto.html', data)
+    return render_to_string('_items/tarjeta_producto.html', data)
 def tarjeta_servicio(cabecera:str, titulo:str, descripcion:str)->str:
     data = {}
     data['cabecera']    = cabecera
     data['nombre']      = titulo
     data['descripcion'] = descripcion
-    return render_to_string('items/tarjeta_servicio.html', data)
+    return render_to_string('_items/tarjeta_servicio.html', data)
 def tarjeta(cabecera:str, titulo:str, descripcion:str, pagina:str)->str:
     data = {}
     data['cabecera']    = cabecera
     data['nombre']      = titulo
     data['descripcion'] = descripcion
     data['pagina']      = pagina
-    return render_to_string('items/tarjeta.html', data)
+    return render_to_string('_items/tarjeta.html', data)
 
 from django.shortcuts import render
 import portal.models as models
@@ -142,13 +143,13 @@ def servicio_detalle(request, nombre:str):
         )]
     )
     return render(request, 'detalle.html', data)
-def persona(request, nombre:str):
+def persona(request, pk:int):
     data = {}
     data['navbar'] = navbar(0)
-    obj = models.Persona.objects.get(nombre=nombre)
+    obj = models.Persona.objects.get(id=pk)
     data['principal'] = carta(obj.nombre, obj.correo, '', '')
     
-    usuario = models.Persona.objects.get(nombre=nombre)
+    usuario = models.Persona.objects.get(id=pk)
     productos = []
     servicios = []
     for p in usuario.productos.all():
@@ -174,3 +175,130 @@ def persona(request, nombre:str):
     )
     return render(request, 'detalle.html', data)
 
+from .forms import PersonaForm
+PERSONA_AGREGAR = 'persona_agregar'
+PERSONA_MODIFICAR = 'persona_modificar'
+PERSONA_ELIMINAR = 'persona_eliminar'
+PERSONA_LISTA = 'persona_lista'
+PERSONA_VER = 'persona_ver'
+def persona_agregar(request):
+    form = PersonaForm()
+    if(request.method == 'POST'):
+        form = PersonaForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect(PERSONA_LISTA)
+    context = {
+        'form' : form,
+        'lista' : PERSONA_LISTA,
+    }
+    return render(request, '_generic/agregar.html', context)
+def persona_modificar(request, pk:int):
+    model = models.Persona.objects.get(id=pk)
+    form = PersonaForm(instance=model)
+    if(request.method == 'POST'):
+        form = PersonaForm(request.POST, instance=model)
+        if(form.is_valid()):
+            form.save()
+            return redirect(PERSONA_LISTA)
+    context = {
+        'form' : form,
+        'lista' : PERSONA_LISTA,
+    }
+    return render(request, '_generic/modificar.html', context)
+def persona_eliminar(request, pk:int):
+    models.Persona.objects.get(id=pk).delete()
+    return redirect('persona_lista')
+def persona_lista(request):
+    title_list = [
+        'id',
+        'nombre',
+        'correo',
+        'productos',
+        'servicios',
+    ]
+    object_list = []
+    for obj in models.Persona.objects.all():
+        productos = []
+        for item in obj.productos.all():
+            productos.append(f'{item}')
+        servicios = []
+        for item in obj.servicios.all():
+            servicios.append(f'{item}')
+        object_list.append([
+            obj.id,
+            obj.nombre,
+            obj.correo,
+            ', '.join(productos),
+            ', '.join(servicios),
+        ])
+    context = {
+        'title_list' : title_list,
+        'object_list' : object_list,
+        'modificar' : PERSONA_MODIFICAR,
+        'eliminar' : PERSONA_ELIMINAR,
+        'ver' : PERSONA_VER,
+        'agregar' : PERSONA_AGREGAR,
+    }
+    return render(request, '_generic/lista.html', context)
+
+from .forms import ProductoForm
+PRODUCTO_AGREGAR = 'producto_agregar'
+PRODUCTO_MODIFICAR = 'producto_modificar'
+PRODUCTO_ELIMINAR = 'producto_eliminar'
+PRODUCTO_LISTA = 'producto_lista'
+PRODUCTO_VER = 'producto_ver'
+def producto_agregar(request):
+    form = ProductoForm()
+    if(request.method == 'POST'):
+        form = ProductoForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect(PRODUCTO_LISTA)
+    context = {
+        'form' : form,
+        'lista' : PRODUCTO_LISTA,
+    }
+    return render(request, '_generic/agregar.html', context)
+def producto_modificar(request, pk:int):
+    model = models.Producto.objects.get(id=pk)
+    form = ProductoForm(instance=model)
+    if(request.method == 'POST'):
+        form = ProductoForm(request.POST, instance=model)
+        if(form.is_valid()):
+            form.save()
+            return redirect(PRODUCTO_LISTA)
+    context = {
+        'form' : form,
+        'lista' : PRODUCTO_LISTA,
+    }
+    return render(request, '_generic/modificar.html', context)
+def producto_eliminar(request, pk:int):
+    models.Producto.objects.get(id=pk).delete()
+    return redirect('producto_lista')
+def producto_lista(request):
+    title_list = [
+        'id',
+        'nombre',
+        'precio',
+        'descripcion',
+        'stock',
+    ]
+    object_list = []
+    for obj in models.Producto.objects.all():
+        object_list.append([
+            obj.id,
+            obj.nombre,
+            obj.precio,
+            obj.descripcion,
+            obj.stock,
+        ])
+    context = {
+        'title_list' : title_list,
+        'object_list' : object_list,
+        'modificar' : PRODUCTO_MODIFICAR,
+        'eliminar' : PRODUCTO_ELIMINAR,
+        'ver' : PRODUCTO_VER,
+        'agregar' : PRODUCTO_AGREGAR,
+    }
+    return render(request, '_generic/lista.html', context)

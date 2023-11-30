@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% block content %}
+<table class="table table-stripped table-inverse table-responsive">
+    <thead class="thead-inverse">
+        <tr>
+            {% for title in title_list %}
+            <td>
+                {{title}}
+            </td>
+            {% endfor %}
+            <td colspan="3"><a href={% url agregar %} class="btn btn-success btn-sm"><i class="bi bi-sign-intersection">agregar</i></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+        <tr>
+            {% for attribute in object %}
+            <td>
+                {{attribute}}
+            </td>
+            {% endfor %}
+            <td><a href={% url ver pk=object.0 %} class="btn btn-success btn-sm"><i class="bi bi-eye">ver</i></td>
+            <td><a href={% url modificar pk=object.0 %} class="btn btn-success btn-sm"><i class="bi bi-pencil">modificar</i></td>
+            <td><a href={% url eliminar pk=object.0 %} class="btn btn-success btn-sm"><i class="bi bi-trash">eliminar</i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

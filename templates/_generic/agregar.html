@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save person</button>
+</form>
+<a href={% url lista %} class="btn btn-success btn-sm"><i class="bi bi-eye">volver</i>
+{% endblock %}

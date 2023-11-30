@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
-
 {% block content %}
+<div class="alert alert-info display-1 text-center">Agregar Persona</div>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

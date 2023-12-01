@@ -9,12 +9,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href={% url 'index' %}>Home</a>
                 </li>
+                {% for item in item_list %}
                 <li class="nav-item">
-                    <a class="nav-link" href={% url 'producto_explorador' pagina=0 %}>Productos</a>
+                    <a class="nav-link" href={% url item.url %}>Productos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href={% url 'servicio_explorador' pagina=0 %}>Servicios</a>
-                </li>
+                {% endfor %}
             </ul>
         </div>  
     </div>

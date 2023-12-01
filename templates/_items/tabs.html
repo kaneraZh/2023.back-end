@@ -5,27 +5,27 @@
         content string
 -->
 <ul class="nav nav-tabs" role="tablist">
-    {% for i in items %}
+    {% for item in items %}
         <li class="nav-item" role="presentation">
-            {% if selected == i.title %}
-            <a class="nav-link active" data-bs-toggle="tab" href="#{{i.title}}" aria-selected="true" role="tab">
+            {% if selected == item.title %}
+            <a class="nav-link active" data-bs-toggle="tab" href="#{{item.title}}" aria-selected="true" role="tab">
             {% else %}
-            <a class="nav-link" data-bs-toggle="tab" href="#{{i.title}}" role="tab">
+            <a class="nav-link" data-bs-toggle="tab" href="#{{item.title}}" role="tab">
             {% endif %}
-            {{ i.title }}
+            {{ item.title }}
             </a>
         </li>
     {% endfor %}
 </ul>
 
 <div id="myTabContent" class="tab-content">
-    {% for i in items %}
-        {% if selected == i.title %}
-        <div class="tab-pane fade active show" id="{{i.title}}" role="tabpanel">
+    {% for item in items %}
+        {% if selected == item.title %}
+        <div class="tab-pane fade active show" id="{{item.title}}" role="tabpanel">
         {% else %}
-        <div class="tab-pane fade" id="{{i.title}}" role="tabpanel">
+        <div class="tab-pane fade" id="{{item.title}}" role="tabpanel">
         {% endif %}
-            {{ i.content }}
+            {{ item.content }}
         </div>
     {% endfor %}
 </div>

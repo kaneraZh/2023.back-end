@@ -10,24 +10,20 @@ def carta(titulo:str,descripcion:str,precio:int,extra:str)->str:
 def navbar(ventana:int = 0)->str:
     data = {'ventana' : max(min(ventana,2),0)}
     return render_to_string('_items/navbar.html', data)
-def tables(headings:list, columns:list, page:str, style:list):
+def tables(headings:list, columns:list, url:str, style:list, pks:int):
     data = {}
     data['headings'] = headings
-    class row:
-        style:int
-        title:str
-        page:str
-        contents:list
-        def __init__(self, style:int, contents:list, page:str):
-            self.style = style
-            self.title = contents.pop(0)
-            self.contents = contents
-            self.page = page
     rows = []
     for i in range(len(columns)):
         stl:int = i
         while(stl >= len(style)):stl-= len(style)
-        rows.append(row(style[stl], columns[i], page))
+        rows.append({
+            'style' : style,
+            'title' : columns.pop(0),
+            'contents' : columns,
+            'url' : url,
+            'pk' : pks.pop(0),
+        })
         #rows.append(column(0, columns[i]))
     data['rows'] = rows
     print(data)
@@ -58,118 +54,257 @@ def tarjeta_servicio(cabecera:str, titulo:str, descripcion:str)->str:
     data['nombre']      = titulo
     data['descripcion'] = descripcion
     return render_to_string('_items/tarjeta_servicio.html', data)
-def tarjeta(cabecera:str, titulo:str, descripcion:str, pagina:str)->str:
+def tarjeta(cabecera:str, titulo:str, descripcion:str, page:str, pk:int)->str:
     data = {}
     data['cabecera']    = cabecera
     data['nombre']      = titulo
     data['descripcion'] = descripcion
-    data['pagina']      = pagina
+    data['page']      = page
+    data['pk']          = pk
     return render_to_string('_items/tarjeta.html', data)
 
 from django.shortcuts import render
 import portal.models as models
 def main(request):
     data = {}
-    data['navbar'] = navbar(0)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
     data['row1'] = []
     data['row2'] = []
     for p in models.Producto.objects.all()[:4]:
-        data['row1'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
+        data['row1'].append(
+            {
+                "cabecera" : p.precio,
+                "nombre" : p.nombre,
+                "descripcion" : p.descripcion,
+                "url" : PRODUCTO_VER,
+                "pk" : p.id,
+            }
+        )
     for s in models.Servicio.objects.all()[:4]:
-        data['row2'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
+        data['row2'].append(
+            {
+                "cabecera" : s.precio,
+                "nombre" : s.nombre,
+                "descripcion" : s.descripcion,
+                "url" : SERVICIO_VER,
+                "pk" : s.id,
+            }
+        )
     return render(request, 'main.html', data)
-def producto(request, pagina:int=0):
+def producto(request, page:int=0):
     data = {}
-    data['navbar'] = navbar(1)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
     data['row1'] = []
     data['row2'] = []
-    item_min = 8*pagina
+    item_min = 8*page
     for p in models.Producto.objects.all()[item_min:item_min+4]:
-        data['row1'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
+        data['row1'].append(
+            {
+                "cabecera" : p.precio,
+                "nombre" : p.nombre,
+                "descripcion" : p.descripcion,
+                "url" : PRODUCTO_VER ,
+                "pk" : p.id,
+            }
+        )
     for p in models.Producto.objects.all()[item_min+4:item_min+8]:
-        data['row2'].append( tarjeta(p.precio, p.nombre, p.descripcion, 'producto_detalle') )
+        data['row2'].append(
+            {
+                "cabecera" : p.precio,
+                "nombre" : p.nombre,
+                "descripcion" : p.descripcion,
+                "url" : PRODUCTO_VER ,
+                "pk" : p.id,
+            }
+        )
     return render(request, 'main.html', data)
-def servicio(request, pagina:int=0):
+def servicio(request, page:int=0):
     data = {}
-    data['navbar'] = navbar(2)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
     data['row1'] = []
     data['row2'] = []
-    item_min = 8*pagina
+    item_min = 8*page
     for s in models.Servicio.objects.all()[item_min:item_min+4]:
-        data['row1'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
+        data['row1'].append(
+            {
+                "cabecera" : s.precio,
+                "nombre" : s.nombre,
+                "descripcion" : s.descripcion,
+                "url" : SERVICIO_VER ,
+                "pk" : s.id,
+            }
+        )
     for s in models.Servicio.objects.all()[item_min+4:item_min+8]:
-        data['row2'].append( tarjeta(s.precio, s.nombre, s.descripcion, 'servicio_detalle') )
+        data['row2'].append(
+            {
+                "cabecera" : s.precio,
+                "nombre" : s.nombre,
+                "descripcion" : s.descripcion,
+                "url" : SERVICIO_VER ,
+                "pk" : s.id,
+            }
+        )
     return render(request, 'main.html', data)
 
-def producto_detalle(request, nombre:str):
+def producto_detalle(request, pk:int):
     data = {}
     
-    data['navbar'] = navbar(1)
-    obj = models.Producto.objects.get(nombre=nombre)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
+    obj = models.Producto.objects.get(id=pk)
     data['principal'] = carta(obj.nombre, obj.descripcion, f'${obj.precio} por unidad', f'quedan {obj.stock} unidades')
     
     usuarios = models.Persona.objects.filter(productos__nombre=obj.nombre)
     columns = []
+    ids = []
     for u in usuarios:
         columns.append([u.nombre, u.correo])
+        ids.append(u.id)
     data['tabs'] = tabs(
         ['Personas que ofrecen este producto'],
         [tables(
             ['Nombre','Correo'],
             columns,
-            'persona',
-            [0,1]
+            PERSONA_VER,
+            [0,1],
+            ids,
         )]
     )
     return render(request, 'detalle.html', data)
-def servicio_detalle(request, nombre:str):
+def servicio_detalle(request, pk:str):
     data = {}
     
-    data['navbar'] = navbar(1)
-    obj = models.Servicio.objects.get(nombre=nombre)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
+    obj = models.Servicio.objects.get(id=pk)
     data['principal'] = carta(obj.nombre, obj.descripcion, f'${obj.precio} por sesión', f'La sesión durará {obj.tiempo}')
     
     usuarios = models.Persona.objects.filter(servicios__nombre=obj.nombre)
     columns = []
+    ids = []
     for u in usuarios:
         columns.append([u.nombre, u.correo])
+        ids.append(u.id)
     data['tabs'] = tabs(
         ['Personas que ofrecen este servicio'],
         [tables(
             ['Nombre','Correo'],
             columns,
-            'persona',
-            [0,1]
+            PERSONA_VER,
+            [0,1],
+            ids,
         )]
     )
     return render(request, 'detalle.html', data)
 def persona(request, pk:int):
     data = {}
-    data['navbar'] = navbar(0)
+    data['navbar_items'] = [
+        {
+            'url' : PERSONA_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : PRODUCTO_LISTA,
+            'page': 0,
+        },
+        {
+            'url' : SERVICIO_LISTA,
+            'page': 0,
+        },
+    ]
     obj = models.Persona.objects.get(id=pk)
     data['principal'] = carta(obj.nombre, obj.correo, '', '')
     
     usuario = models.Persona.objects.get(id=pk)
     productos = []
+    pids = []
     servicios = []
+    sids = []
     for p in usuario.productos.all():
         productos.append([p.nombre, p.precio, p.descripcion, p.stock])
+        pids.append(p.id)
     for s in usuario.servicios.all():
         servicios.append([s.nombre, s.precio, s.descripcion, s.tiempo])
+        sids.append(s.id)
     data['tabs'] = tabs(
         ['Productos_ofrecidos', 'Servicios_ofrecidos'],
         [
             tables(
                 ['Nombre','Precio','Descripción','Stock'],
                 productos,
-                'producto_detalle',
-                [0,1]
+                PRODUCTO_VER,
+                [0,1],
+                pids,
             ),
             tables(
                 ['Nombre','Precio','Descripción','Duración'],
                 servicios,
-                'servicio_detalle',
-                [0,1]
+                SERVICIO_VER,
+                [0,1],
+                sids,
             )
         ]
     )
@@ -300,5 +435,66 @@ def producto_lista(request):
         'eliminar' : PRODUCTO_ELIMINAR,
         'ver' : PRODUCTO_VER,
         'agregar' : PRODUCTO_AGREGAR,
+    }
+    return render(request, '_generic/lista.html', context)
+
+from .forms import ServicioForm
+SERVICIO_AGREGAR = 'servicio_agregar'
+SERVICIO_MODIFICAR = 'servicio_modificar'
+SERVICIO_ELIMINAR = 'servicio_eliminar'
+SERVICIO_LISTA = 'servicio_lista'
+SERVICIO_VER = 'servicio_ver'
+def servicio_agregar(request):
+    form = ServicioForm()
+    if(request.method == 'POST'):
+        form = ServicioForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect(SERVICIO_LISTA)
+    context = {
+        'form' : form,
+        'lista' : SERVICIO_LISTA,
+    }
+    return render(request, '_generic/agregar.html', context)
+def servicio_modificar(request, pk:int):
+    model = models.Servicio.objects.get(id=pk)
+    form = ServicioForm(instance=model)
+    if(request.method == 'POST'):
+        form = ServicioForm(request.POST, instance=model)
+        if(form.is_valid()):
+            form.save()
+            return redirect(SERVICIO_LISTA)
+    context = {
+        'form' : form,
+        'lista' : SERVICIO_LISTA,
+    }
+    return render(request, '_generic/modificar.html', context)
+def servicio_eliminar(request, pk:int):
+    models.Servicio.objects.get(id=pk).delete()
+    return redirect('servicio_lista')
+def servicio_lista(request):
+    title_list = [
+        'id',
+        'nombre',
+        'precio',
+        'descripcion',
+        'tiempo',
+    ]
+    object_list = []
+    for obj in models.Servicio.objects.all():
+        object_list.append([
+            obj.id,
+            obj.nombre,
+            obj.precio,
+            obj.descripcion,
+            obj.tiempo,
+        ])
+    context = {
+        'title_list' : title_list,
+        'object_list' : object_list,
+        'modificar' : SERVICIO_MODIFICAR,
+        'eliminar' : SERVICIO_ELIMINAR,
+        'ver' : SERVICIO_VER,
+        'agregar' : SERVICIO_AGREGAR,
     }
     return render(request, '_generic/lista.html', context)

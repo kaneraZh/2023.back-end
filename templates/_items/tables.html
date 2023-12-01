@@ -1,7 +1,7 @@
 
 <!--
-    uses a "headings" string array, containing the titles of the columns
-    uses a "columns" dictionary?
+    uses a "headings" string array, containing the titles of the column
+    uses a "column" dictionary?
         has "style" int for style, 0-9, or default for any other value
         has "title" string for the title of the row
         has "contents" string array, for the contents of each row
@@ -16,33 +16,33 @@
         </tr>
     </thead>
     <tbody>
-    {% for r in rows %}
-        {% if   r.style == 0 %}
+    {% for row in rows %}
+        {% if   row.style == 0 %}
         <tr class="table-primary">
-        {% elif r.style == 1 %}
+        {% elif row.style == 1 %}
         <tr class="table-secondary">
-        {% elif r.style == 2 %}
+        {% elif row.style == 2 %}
         <tr class="table-active">
-        {% elif r.style == 3 %}
+        {% elif row.style == 3 %}
         <tr class="table-success">
-        {% elif r.style == 4 %}
+        {% elif row.style == 4 %}
         <tr class="table-danger">
-        {% elif r.style == 5 %}
+        {% elif row.style == 5 %}
         <tr class="table-warning">
-        {% elif r.style == 6 %}
+        {% elif row.style == 6 %}
         <tr class="table-info">
-        {% elif r.style == 7 %}
+        {% elif row.style == 7 %}
         <tr class="table-light">
-        {% elif r.style == 8 %}
+        {% elif row.style == 8 %}
         <tr class="table-dark">
         {% else %}
         <tr>
         {% endif %}
-            <th scope="row">{{r.title}}</th>
-            {% for c in r.contents %}
-            <td>{{c}}</td>
+            <th scope="row">{{row.title}}</th>
+            {% for column in row.contents %}
+            <td>{{column}}</td>
             {% endfor %}
-            <td><a href={% url r.page nombre=r.title %}>
+            <td><a href={% url row.url pk=row.pk %}>
                     <button type="button" class="btn btn-primary btn-sm">Detalles</button>
             </a></td>
         </tr>

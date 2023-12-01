@@ -1,6 +1,0 @@
-• Elegir un tema y crear el proyecto en django.
-• Crear al menos una aplicación.
-• Basados en el patron models, views, templates.
-    > Crear cada una de las capas.
-• Crear una base de datos y la conexion.
-• Mostrar desde el administrador de django los datos de la base de datos.

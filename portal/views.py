@@ -498,3 +498,5 @@ def servicio_lista(request):
         'agregar' : SERVICIO_AGREGAR,
     }
     return render(request, '_generic/lista.html', context)
+
+#API

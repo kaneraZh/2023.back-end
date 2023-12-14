@@ -17,9 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import portal.views as portal
+from django.urls import include
+
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register('productos', portal.ProductoViewSets)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', portal.main, name='index'),
+    #path('', portal.main, name='index'),
+    path('', include(router.urls), name='index'),
 
     path('producto', portal.producto, name='producto'),
     path('producto/<int:page>/', portal.producto, name='producto_explorador'),
@@ -50,4 +57,5 @@ urlpatterns = [
     # API
     path('producto/api/lista/', portal.producto_lista_api, name='producto_lista_api'),
     path('producto/api/detalle/<int:pk>/', portal.producto_detalle_api, name='producto_detalle_api'),
+
 ]

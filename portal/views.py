@@ -539,3 +539,7 @@ def producto_detalle_api(request, pk):
         case 'DELETE':
             producto.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
+from rest_framework import viewsets
+class ProductoViewSets(viewsets.ModelViewSet):
+    queryset = models.Producto.objects.all()
+    serializer_class = ProductoSerializer

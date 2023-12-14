@@ -500,3 +500,42 @@ def servicio_lista(request):
     return render(request, '_generic/lista.html', context)
 
 #API
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import ProductoSerializer
+
+@api_view(['GET', 'POST'])
+def producto_lista_api(request):
+    match request.method:
+        case 'GET':
+            producto = models.Producto.objects.all()
+            serializer = ProductoSerializer(producto, many=True)
+            return Response(serializer.data)
+        case 'POST':
+            serializer = ProductoSerializer(data=request.data)
+            if(serializer.is_valid()):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET', 'PUT', 'DELETE'])
+def producto_detalle_api(request, pk):
+    try:
+        producto = models.Producto.objects.get(pk=pk)
+    except models.Producto.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    match request.method:
+        case 'GET':
+            serializer = ProductoSerializer(producto)
+            return Response(serializer.data)
+        case 'PUT':
+            serializer = ProductoSerializer(producto, data=request.data)
+            if(serializer.is_valid()):
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        case 'DELETE':
+            producto.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)

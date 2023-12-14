@@ -46,4 +46,8 @@ urlpatterns = [
     path('servicio/modificar/<int:pk>/', portal.servicio_modificar, name='servicio_modificar'),
     path('servicio/eliminar/<int:pk>/', portal.servicio_eliminar, name='servicio_eliminar'),
     path('servicio/lista/', portal.servicio_lista, name='servicio_lista'),
+
+    # API
+    path('producto/api/lista/', portal.producto_lista_api, name='producto_lista_api'),
+    path('producto/api/detalle/<int:pk>/', portal.producto_detalle_api, name='producto_detalle_api'),
 ]

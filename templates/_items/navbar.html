@@ -11,7 +11,7 @@
                 </li>
                 {% for item in item_list %}
                 <li class="nav-item">
-                    <a class="nav-link" href={% url item.url %}>Productos</a>
+                    <a class="nav-link" href={% url item.url %}>{{item.url}}</a>
                 </li>
                 {% endfor %}
             </ul>
